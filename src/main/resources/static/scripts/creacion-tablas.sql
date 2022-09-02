@@ -1,0 +1,24 @@
+CREATE TABLE empresas(
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	nombre VARCHAR(64) NOT NULL,
+	direccion VARCHAR(128) NOT NULL,
+	telefono VARCHAR(16) NOT NULL,
+	nit VARCHAR(16) NOT NULL,
+	UNIQUE(nit)
+);
+
+CREATE TABLE empleados (
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	nombre VARCHAR(64) NOT NULL,
+	email VARCHAR(64) NOT NULL,
+	rol roles DEFAULT 'Operario',
+	id_empresa BIGINT REFERENCES empresas(id),
+	UNIQUE(email)
+);
+
+CREATE TABLE movimientos (
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	monto NUMERIC(19,2) NOT NULL DEFAULT 0,
+	concepto VARCHAR(255) NOT NULL,
+	id_empleado BIGINT REFERENCES empleados(id)
+);
