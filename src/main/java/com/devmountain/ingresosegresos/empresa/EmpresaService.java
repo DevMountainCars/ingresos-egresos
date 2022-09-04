@@ -13,4 +13,20 @@ public class EmpresaService {
     public List<Empresa> getAllEmpresas(){
         return empresaRepository.findAll();
     }
+
+    public Empresa getEmpresaById(Integer id){
+        return empresaRepository.findById(id).get();
+    }
+    public Empresa saveOrUpdateEmpresa(Empresa empresa){
+        Empresa emp=empresaRepository.save(empresa);
+        return emp;
+    }
+    public boolean deleteEmpresa(Integer id){
+        empresaRepository.deleteById(id);
+
+        if (empresaRepository.findById(id)!=null){
+            return true;
+        }
+        return false;
+    }
 }
