@@ -41,10 +41,10 @@ public class Empleado {
     private Integer id;
     private String nombre;
     private String email;
-    private Rol rol;
+    //private Rol rol;
     @ManyToOne
     @JoinColumn(name = "id_empresa")
     private Empresa empresa;
-    @OneToMany(mappedBy = "empleado")
-    private Set<Movimiento> movimientos;
+    //@OneToMany(mappedBy = "empleado")
+    //private Set<Movimiento> movimientos;
 }
