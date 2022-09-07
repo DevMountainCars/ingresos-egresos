@@ -39,6 +39,6 @@ public class Empresa {
     private String direccion;
     private String telefono;
     private String nit;
-    @OneToMany(mappedBy = "empresa")
-    private Set<Empleado> empleados;
+    //@OneToMany(mappedBy = "empresa")
+    //private Set<Empleado> empleados;
 }
