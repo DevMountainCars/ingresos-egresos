@@ -1,6 +1,5 @@
 package com.devmountain.ingresosegresos.empresa;
 
-import com.devmountain.ingresosegresos.empleado.Empleado;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,10 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -39,6 +36,4 @@ public class Empresa {
     private String direccion;
     private String telefono;
     private String nit;
-    @OneToMany(mappedBy = "empresa")
-    private Set<Empleado> empleados;
 }
