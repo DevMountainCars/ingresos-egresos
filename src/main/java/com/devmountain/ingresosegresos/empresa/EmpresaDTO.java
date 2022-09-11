@@ -1,6 +1,6 @@
 package com.devmountain.ingresosegresos.empresa;
 
-import com.devmountain.ingresosegresos.empleado.Empleado;
+import com.devmountain.ingresosegresos.empleado.EmpleadoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,5 +21,5 @@ public class EmpresaDTO implements Serializable {
     private String direccion;
     private String telefono;
     private String nit;
-    private Set<Empleado> empleados;
+    private Set<EmpleadoDTO> empleados;
 }

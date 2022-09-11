@@ -1,5 +1,6 @@
 package com.devmountain.ingresosegresos.movimiento;
 
+import com.devmountain.ingresosegresos.mapper.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,16 @@ import java.util.stream.Collectors;
 public class MovimientoService {
     @Autowired
     private final MovimientoRepository movimientoRepository;
-    private final MovimientoMapper mapper;
 
     public MovimientoService(MovimientoRepository movimientoRepository) {
         this.movimientoRepository = movimientoRepository;
-        mapper = MovimientoMapper.INSTANCE;
     }
 
     public List<MovimientoDTO> listarMovimientos() {
-        return movimientoRepository.findAll()
+        List<Movimiento> movimientos = movimientoRepository.findAll();
+        return movimientos
                 .stream()
-                .map(mapper::movimientoToMovimientoDTO)
+                .map(MapperUtil.INSTANCE::movimientoToMovimientoDTO)
                 .collect(Collectors.toList());
     }
 
@@ -32,7 +32,7 @@ public class MovimientoService {
         } else if (Objects.nonNull(movimientoDTO.getId())) {
             throw new IllegalArgumentException(String.format("El movimiento con ID %s ya se encuentra registrado.", movimientoDTO.getId()));
         }
-        Movimiento movimiento = mapper.movimientoDTOTOMovimiento(movimientoDTO);
+        Movimiento movimiento = MapperUtil.INSTANCE.movimientoDTOTOMovimiento(movimientoDTO);
         movimiento = movimientoRepository.save(movimiento);
         movimientoDTO.setId(movimiento.getId());
         return movimientoDTO;
@@ -51,7 +51,7 @@ public class MovimientoService {
                 ));
         movimiento.setMonto(movimientoDTO.getMonto());
         movimiento.setConcepto(movimientoDTO.getConcepto());
-        movimiento.setEmpleado(movimientoDTO.getEmpleado());
+        movimiento.setEmpleado(MapperUtil.INSTANCE.empleadoDTOToEmpleado(movimientoDTO.getEmpleado()));
     }
 
     public void eliminarMovimiento(Integer idMovimiento) {
