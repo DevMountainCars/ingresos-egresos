@@ -3,13 +3,19 @@ package com.devmountain.ingresosegresos.empleado;
 import com.devmountain.ingresosegresos.empresa.Empresa;
 import com.devmountain.ingresosegresos.movimiento.Movimiento;
 import com.devmountain.ingresosegresos.rol.Rol;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,10 +47,13 @@ public class Empleado {
     private Integer id;
     private String nombre;
     private String email;
+    @Enumerated(EnumType.STRING)
     private Rol rol;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empresa")
+    @JsonBackReference
     private Empresa empresa;
-    @OneToMany(mappedBy = "empleado")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "empleado")
+    @JsonManagedReference
     private Set<Movimiento> movimientos;
 }

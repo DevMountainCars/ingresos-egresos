@@ -1,6 +1,7 @@
 package com.devmountain.ingresosegresos.movimiento;
 
 import com.devmountain.ingresosegresos.empleado.Empleado;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +39,8 @@ public class Movimiento {
     private Integer id;
     private float monto;
     private String concepto;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado")
+    @JsonBackReference
     private Empleado empleado;
 }

@@ -1,6 +1,6 @@
 package com.devmountain.ingresosegresos.movimiento;
 
-import com.devmountain.ingresosegresos.empleado.Empleado;
+import com.devmountain.ingresosegresos.empleado.EmpleadoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +18,5 @@ public class MovimientoDTO implements Serializable {
     private Integer id;
     private float monto;
     private String concepto;
-    private Empleado empleado;
+    private EmpleadoDTO empleado;
 }
