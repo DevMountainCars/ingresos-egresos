@@ -1,7 +1,7 @@
 package com.devmountain.ingresosegresos.empleado;
 
-import com.devmountain.ingresosegresos.empresa.Empresa;
-import com.devmountain.ingresosegresos.movimiento.Movimiento;
+import com.devmountain.ingresosegresos.empresa.EmpresaDTO;
+import com.devmountain.ingresosegresos.movimiento.MovimientoDTO;
 import com.devmountain.ingresosegresos.rol.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,7 @@ public class EmpleadoDTO implements Serializable {
     private Integer id;
     private String nombre;
     private String email;
-    private Empresa empresa;
+    private EmpresaDTO empresa;
     private Rol rol;
-    private Set<Movimiento> movimientos;
+    private Set<MovimientoDTO> movimientos;
 }

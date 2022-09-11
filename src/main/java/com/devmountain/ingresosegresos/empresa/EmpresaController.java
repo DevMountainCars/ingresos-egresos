@@ -43,4 +43,9 @@ public class EmpresaController {
             return "No se pudo eliminar la empresa con id"+id;
         }
     }
+
+    @GetMapping(path = "empresa/{id}/movimientos")
+    public Empresa movimientosPorEmpresa(@PathVariable("id") Integer id){
+        return new Empresa();
+    }
 }
