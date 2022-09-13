@@ -10,7 +10,7 @@ import java.util.List;
 public class EmpresaController {
     @Autowired
     EmpresaService  empresaService;
-    @GetMapping("/empresa")
+    @GetMapping("/VerEmpresa")
     public List<Empresa> verEmpresa(){
         return empresaService.getAllEmpresas();
     }

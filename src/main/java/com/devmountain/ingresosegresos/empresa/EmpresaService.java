@@ -11,7 +11,9 @@ public class EmpresaService {
     @Autowired
     EmpresaRepository empresaRepository;
     public List<Empresa> getAllEmpresas(){
-        return empresaRepository.findAll();
+        List<Empresa> empresaList = new ArrayList<>();
+        empresaRepository.findAll().forEach(empresa -> empresaList.add(empresa));
+        return empresaList;
     }
 
     public Empresa getEmpresaById(Integer id){
