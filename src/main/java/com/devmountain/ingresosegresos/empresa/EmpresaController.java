@@ -1,7 +1,6 @@
 package com.devmountain.ingresosegresos.empresa;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class EmpresaController {
     }
 
     @PostMapping("/empresa")
-    public Empresa guardarEmpresa(@RequestBody Empresa emp){
+    public boolean guardarEmpresa(@RequestBody Empresa emp){
         return this.empresaService.saveOrUpdateEmpresa(emp);
     }
     @GetMapping(path = "empresa/{id}")
@@ -24,7 +23,7 @@ public class EmpresaController {
         return this.empresaService.getEmpresaById(id);
     }
     @PatchMapping("/empresa/{id}")
-    public Empresa actualizarEmpresa(@PathVariable("id") Integer id, @RequestBody Empresa empresa){
+    public boolean actualizarEmpresa(@PathVariable("id") Integer id, @RequestBody Empresa empresa){
         Empresa emp= empresaService.getEmpresaById(id);
         emp.setNombre(empresa.getNombre());
         emp.setDireccion(empresa.getDireccion());

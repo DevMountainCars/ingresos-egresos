@@ -19,9 +19,12 @@ public class EmpresaService {
     public Empresa getEmpresaById(Integer id){
         return empresaRepository.findById(id).get();
     }
-    public Empresa saveOrUpdateEmpresa(Empresa empresa){
+    public boolean saveOrUpdateEmpresa(Empresa empresa){
         Empresa emp=empresaRepository.save(empresa);
-        return emp;
+        if (empresaRepository.findById(emp.getId())!=null){
+            return true;
+        }
+        return false;
     }
     public boolean deleteEmpresa(Integer id){
         empresaRepository.deleteById(id);

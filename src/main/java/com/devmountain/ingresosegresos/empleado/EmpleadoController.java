@@ -25,7 +25,7 @@ public class EmpleadoController {
     public Optional<Empleado> empleadoPorID(@PathVariable("id") Integer id){
         return this.empleadoService.getEmpleadoById(id);
     }
-    @GetMapping("/enterprises/{id}/empleados")
+    @GetMapping("/empresa/{id}/empleados")
     public ArrayList<Empleado> EmpleadoPorEmpresa(@PathVariable("id") Integer id){
         return this.empleadoService.obtenerPorEmpresa(id);
     }

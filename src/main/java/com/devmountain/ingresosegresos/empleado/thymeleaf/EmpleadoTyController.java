@@ -16,14 +16,14 @@ public class EmpleadoTyController {
     private final EmpleadoService empleadoService;
 
     public EmpleadoTyController(EmpleadoService empleadoService) {
+
         this.empleadoService = empleadoService;
     }
 
     @GetMapping("/verEmpleados")
-    public String verEmpleados(Model model, @ModelAttribute("mensaje") String mensaje){
-        List<Empleado> listaEmpleados=empleadoService.getAllEmpleado();
-        model.addAttribute("emplelist",listaEmpleados);
-        model.addAttribute("mensaje",mensaje);
+    public String listarEmpleados(Model model){
+        List<Empleado> empleadoList=empleadoService.getAllEmpleado();
+        model.addAttribute("empleadoList",empleadoList);
         return "verEmpleados";
     }
 
