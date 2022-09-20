@@ -1,6 +1,7 @@
 package com.devmountain.ingresosegresos.empleado;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,39 +14,33 @@ public class EmpleadoController {
     EmpleadoService empleadoService;
 
     @GetMapping("/empleados")
-    public List<Empleado> verEmpleados(){
-        return empleadoService.getAllEmpleado();
+    @ResponseStatus(HttpStatus.OK)
+    public List<EmpleadoDTO> verEmpleados(){
+        return empleadoService.getAllEmpleados();
     }
 
     @PostMapping("/empleados")
-    public Optional<Empleado> guardarEmpleado(@RequestBody Empleado empl){
-        return Optional.ofNullable(this.empleadoService.saveOrUpdateEmpleado(empl));
+    public Optional<EmpleadoDTO> guardarEmpleado(@RequestBody EmpleadoDTO empl){
+        return Optional.ofNullable(this.empleadoService.guardarNuevoEmpleado(empl));
     }
     @GetMapping(path = "empleados/{id}")
-    public Optional<Empleado> empleadoPorID(@PathVariable("id") Integer id){
+    @ResponseStatus(HttpStatus.OK)
+    public EmpleadoDTO empleadoPorID(@PathVariable("id") Integer id){
         return this.empleadoService.getEmpleadoById(id);
     }
     @GetMapping("/enterprises/{id}/empleados")
-    public ArrayList<Empleado> EmpleadoPorEmpresa(@PathVariable("id") Integer id){
-        return this.empleadoService.obtenerPorEmpresa(id);
+    public List<EmpleadoDTO> empleadoPorEmpresa(@PathVariable("id") Integer id){
+        return empleadoService.obtenerPorEmpresa(id);
     }
     @PatchMapping("/empleados/{id}")
-    public Empleado actualizarEmpleado(@PathVariable("id") Integer id, @RequestBody Empleado empleado){
-        Empleado empl=empleadoService.getEmpleadoById(id).get();
-        empl.setNombre(empleado.getNombre());
-        empl.setEmail(empleado.getEmail());
-        empl.setEmpresa(empleado.getEmpresa());
-        //empl.setRol(empleado.getRol());
-        return empleadoService.saveOrUpdateEmpleado(empl);
+    public void actualizarEmpleado(@PathVariable("id") Integer id, @RequestBody EmpleadoDTO empleadoDTO){
+        empleadoService.actualizarEmpleado(empleadoDTO);
     }
     @DeleteMapping("/empleados/{id}")
-    public String DeleteEmpleado(@PathVariable("id") Integer id){
-        boolean respuesta=empleadoService.deleteEmpleado(id);
-        if (respuesta){
+    public String deleteEmpleado(@PathVariable("id") Integer id){
+        if (empleadoService.deleteEmpleado(id)){
             return "Se pudo eliminar correctamente el empleado con id "+id;
         }
         return "No se puedo eliminar correctamente el empleado con id "+id;
     }
-
-
 }

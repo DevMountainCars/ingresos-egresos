@@ -1,7 +1,6 @@
 package com.devmountain.ingresosegresos.empresa;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,10 +41,5 @@ public class EmpresaController {
         else{
             return "No se pudo eliminar la empresa con id"+id;
         }
-    }
-
-    @GetMapping(path = "empresa/{id}/movimientos")
-    public Empresa movimientosPorEmpresa(@PathVariable("id") Integer id){
-        return new Empresa();
     }
 }

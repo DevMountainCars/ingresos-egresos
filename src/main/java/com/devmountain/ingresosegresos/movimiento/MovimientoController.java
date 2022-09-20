@@ -1,6 +1,6 @@
 package com.devmountain.ingresosegresos.movimiento;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,38 +14,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/movimientos")
+@RequestMapping("/")
 public class MovimientoController {
-    @Autowired
     private final MovimientoService movimientoService;
 
-    public MovimientoController(MovimientoService movimientoService) {
-        this.movimientoService = movimientoService;
-    }
-
-    @GetMapping(value = "/")
+    @GetMapping(value = "movimientos/")
     @ResponseStatus(HttpStatus.OK)
     public List<MovimientoDTO> listarMovimientos() {
         return movimientoService.listarMovimientos();
     }
 
-    @PostMapping
+    @PostMapping(value = "movimientos/registrar")
     @ResponseStatus(HttpStatus.OK)
     public MovimientoDTO registrarNuevoMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
         movimientoDTO = movimientoService.agregarMovimiento(movimientoDTO);
         return movimientoDTO;
     }
 
-    @PatchMapping(value = "/")
+    @PatchMapping(value = "movimientos/actualizar")
     @ResponseStatus(HttpStatus.OK)
     public void actualizarMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
         movimientoService.actualizarMovimiento(movimientoDTO);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "movimientos/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void eliminarMovimiento(@PathVariable Integer id) {
         movimientoService.eliminarMovimiento(id);
+    }
+
+    @GetMapping("empresa/{id}/movimientos")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MovimientoDTO> listarMovimientosEmpresa(@PathVariable(value = "id") Integer idEmpresa) {
+        return movimientoService.listarMovimientosEmpresa(idEmpresa);
     }
 }
