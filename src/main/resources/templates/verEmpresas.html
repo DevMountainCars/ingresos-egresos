@@ -48,7 +48,7 @@
         <td th:text="${empresa.direccion}"></td>
         <td th:text="${empresa.telefono}"></td>
         <td th:text="${empresa.nit}"></td>
-        <td><button type="button" class="btn btn-info"><a th:href="@{/empresa/{id}/empleados (id=${empresa.id})}">Ver</a></button></td>
+        <td><button type="button" class="btn btn-info"><a th:href="@{/empresa/{id}/listarEmpleados (id=${empresa.id})}">Ver</a></button></td>
         <td><button type="button" class="btn btn-primary"><a th:href="@{/empresa/{id}/movimientos (id=${empresa.id})}">Ver</a></button></td>
         <td><button type="button" class="btn btn-warning"><a th:href="@{/editarEmpresa/{id}(id=${empresa.id})}">Editar</a></button></td>
         <td><button type="button" class="btn btn-danger"><a th:href="@{/eliminarEmpresa/{id}(id=${empresa.id})}">Eliminar</a></button></td>

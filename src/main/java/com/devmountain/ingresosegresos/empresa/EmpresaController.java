@@ -1,5 +1,8 @@
 package com.devmountain.ingresosegresos.empresa;
 
+import com.devmountain.ingresosegresos.empleado.Empleado;
+import com.devmountain.ingresosegresos.empleado.EmpleadoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,16 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 public class EmpresaController {
     private final EmpresaService empresaService;
+    private final EmpleadoService empleadoService;
 
-    public EmpresaController(EmpresaService empresaService) {
-
-        this.empresaService = empresaService;
-    }
     @GetMapping("/verEmpresas")
     public String listarEmpresa(Model model){
         List<Empresa> emplist=empresaService.getAllEmpresas();
@@ -62,7 +64,7 @@ public class EmpresaController {
 
     }
 
-@GetMapping("/eliminarEmpresa/{id}")
+    @GetMapping("/eliminarEmpresa/{id}")
     public String eliminarEmpresa(@PathVariable Integer id, RedirectAttributes redirectAttributes){
         if (empresaService.deleteEmpresa(id)==true){
             redirectAttributes.addFlashAttribute("mensaje","deleteOK");
@@ -70,5 +72,12 @@ public class EmpresaController {
         }
         redirectAttributes.addFlashAttribute("mensaje", "deleteError");
         return "redirect:/verEmpresas";
+    }
+    
+    @GetMapping("/empresa/{id}/listarEmpleados")
+    public String listarEmpleadosEmpresa(@PathVariable Integer id, Model model) {
+        List<Empleado> empleados = empleadoService.obtenerPorEmpresa(id);
+        model.addAttribute("emplelist", empleados);
+        return "/verEmpleados";
     }
 }

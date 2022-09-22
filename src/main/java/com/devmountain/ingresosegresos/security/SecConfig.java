@@ -33,13 +33,15 @@ public class SecConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/","verEmpresas/**").hasRole("ADMIN")
-                .antMatchers("/verEmpleados/**").hasRole("ADMIN")
-                .antMatchers("/empresa/**").hasRole("ADMIN")
-                .antMatchers("/empleado/**").hasRole("ADMIN")
-                .antMatchers("/verMovimientos/**").hasAnyRole("ADMIN","OPERARIO")
-                .antMatchers("/agregarMovimiento/**").hasAnyRole("ADMIN","OPERARIO")
-                .antMatchers("/editarMovimiento/**").hasAnyRole("ADMIN","OPERARIO")
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/","verEmpresas/*").hasRole("ADMIN")
+                .antMatchers("/verEmpleados/*").hasRole("ADMIN")
+                .antMatchers("/empresa/*").hasRole("ADMIN")
+                .antMatchers("/empleado/*").hasRole("ADMIN")
+                .antMatchers("/editarEmpleado/**").hasRole("ADMIN")
+                .antMatchers("/verMovimientos/*").hasAnyRole("ADMIN","OPERARIO")
+                .antMatchers("/agregarMovimiento/*").hasAnyRole("ADMIN","OPERARIO")
+                .antMatchers("/editarMovimiento/*").hasAnyRole("ADMIN","OPERARIO")
                 .and().formLogin().successHandler(customSuccessHandler)
                 .and().exceptionHandling().accessDeniedPage("/Denegado")
                 .and().logout().permitAll();

@@ -45,8 +45,8 @@
     <td th:text="${empleado.nombre}"></td>
     <td th:text="${empleado.email}"></td>
     <td th:text="${empleado.empresa.nombre}"></td>
-    <td th:if="${empleado.rol=='ROLE_ADMIN'}">Administrativo</td>
-    <td th:if="${empleado.rol=='ROLE_USER'}">Operativo</td>
+    <td th:if="${empleado.rol=='ADMIN'}">Administrativo</td>
+    <td th:unless="${empleado.rol=='OPERARIO'}">Operativo</td>
     <td th:if="${empleado.estado==true}">Activo</td>
     <td th:if="${empleado.estado==false}">Inactivo</td>
     <td><button type="button" class="btn btn-info"><a th:href="@{/empleado/{id}/movimientos(id=${empleado.id})}">Ver</a></button></td>
