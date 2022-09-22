@@ -1,50 +1,74 @@
 package com.devmountain.ingresosegresos.empresa;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class EmpresaController {
-    @Autowired
-    EmpresaService  empresaService;
-    @GetMapping("/VerEmpresa")
-    public List<Empresa> verEmpresa(){
-        return empresaService.getAllEmpresas();
-    }
+    private final EmpresaService empresaService;
 
-    @PostMapping("/empresa")
-    public boolean guardarEmpresa(@RequestBody Empresa emp){
-        return this.empresaService.saveOrUpdateEmpresa(emp);
-    }
-    @GetMapping(path = "empresa/{id}")
-    public Empresa empresaPorID(@PathVariable("id") Integer id){
-        return this.empresaService.getEmpresaById(id);
-    }
-    @PatchMapping("/empresa/{id}")
-    public boolean actualizarEmpresa(@PathVariable("id") Integer id, @RequestBody Empresa empresa){
-        Empresa emp= empresaService.getEmpresaById(id);
-        emp.setNombre(empresa.getNombre());
-        emp.setDireccion(empresa.getDireccion());
-        emp.setTelefono(empresa.getTelefono());
-        emp.setNit(empresa.getNit());
-        return empresaService.saveOrUpdateEmpresa(emp);
+    public EmpresaController(EmpresaService empresaService) {
 
+        this.empresaService = empresaService;
     }
-    @DeleteMapping (path= "empresa/{id}")
-    public String DeleteEmpresa(@PathVariable("id") Integer id){
-        boolean respuesta= this.empresaService.deleteEmpresa(id);
-        if (respuesta){  //Si respuesta es true?
-            return "Se eliminó la empresa con id" +id;
+    @GetMapping("/verEmpresas")
+    public String listarEmpresa(Model model){
+        List<Empresa> emplist=empresaService.getAllEmpresas();
+        model.addAttribute("emplist",emplist);
+        return "verEmpresas";
+    }
+    @GetMapping("/agregarEmpresa")
+    public String nuevaEmpresa(Model model, @ModelAttribute("mensaje") String mensaje){
+        Empresa emp = new Empresa();
+        model.addAttribute("emp",emp);
+        model.addAttribute("mensaje",mensaje);
+        return "agregarEmpresa";
+    }
+    @PostMapping("/guardarEmpresa")
+    public String guardarEmpresa(Empresa emp, RedirectAttributes redirectAttributes){
+        if(empresaService.saveOrUpdateEmpresa(emp) == true){
+            redirectAttributes.addFlashAttribute("mensaje","saveOK");
+            return "redirect:/verEmpresas";
         }
-        else{
-            return "No se pudo eliminar la empresa con id"+id;
-        }
+        redirectAttributes.addFlashAttribute("mensaje","saveError");
+        return "redirect:/agregarEmpresa";
     }
 
-    @GetMapping(path = "empresa/{id}/movimientos")
-    public Empresa movimientosPorEmpresa(@PathVariable("id") Integer id){
-        return new Empresa();
+    @GetMapping("/editarEmpresa/{id}")
+    public String editarEmpresa(Model model, @PathVariable Integer id, @ModelAttribute("mensaje") String mensaje){
+        Empresa emp=empresaService.getEmpresaById(id);
+        //Creamos un atributo para el modelo, que se llame igualmente emp y es el que ira al html para llenar o alimentar campos
+        model.addAttribute("emp",emp);
+        model.addAttribute("mensaje", mensaje);
+        return "editarEmpresa";
+    }
+
+
+    @PostMapping("/actualizarEmpresa")
+    public String updateEmpresa(@ModelAttribute("emp") Empresa emp, RedirectAttributes redirectAttributes){
+        if(empresaService.saveOrUpdateEmpresa(emp)){
+            redirectAttributes.addFlashAttribute("mensaje","updateOK");
+            return "redirect:/verEmpresas";
+        }
+        redirectAttributes.addFlashAttribute("mensaje","updateError");
+        return "redirect:/editarEmpresa/"+emp.getId();
+
+    }
+
+@GetMapping("/eliminarEmpresa/{id}")
+    public String eliminarEmpresa(@PathVariable Integer id, RedirectAttributes redirectAttributes){
+        if (empresaService.deleteEmpresa(id)==true){
+            redirectAttributes.addFlashAttribute("mensaje","deleteOK");
+            return "redirect:/verEmpresas";
+        }
+        redirectAttributes.addFlashAttribute("mensaje", "deleteError");
+        return "redirect:/verEmpresas";
     }
 }

@@ -49,6 +49,8 @@ public class Empleado {
     private String email;
     @Enumerated(EnumType.STRING)
     private Rol rol;
+    private String password;
+    private Boolean estado;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empresa")
     @JsonBackReference

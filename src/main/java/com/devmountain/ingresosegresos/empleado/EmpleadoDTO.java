@@ -23,5 +23,7 @@ public class EmpleadoDTO implements Serializable {
     private String email;
     private EmpresaDTO empresa;
     private Rol rol;
+    private String password;
+    private Boolean estado;
     private Set<MovimientoDTO> movimientos;
 }

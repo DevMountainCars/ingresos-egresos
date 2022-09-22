@@ -16,11 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/movimientos")
-public class MovimientoController {
+public class MovimientoRestController {
     @Autowired
     private final MovimientoService movimientoService;
 
-    public MovimientoController(MovimientoService movimientoService) {
+    public MovimientoRestController(MovimientoService movimientoService) {
         this.movimientoService = movimientoService;
     }
 
