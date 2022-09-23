@@ -24,8 +24,7 @@
 <div class="container">
   <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
   <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
-  <h1> Lista de Movimientos</h1>
-  <!--Dibujamos la tabla-->
+  <h1><center>Lista de Movimientos</center></h1>
   <br><table class="table table-bordered">
   <tr>
     <th>ID</th>
@@ -38,21 +37,18 @@
     <th>Eliminar</th>
   </tr>
 
-  <!--Llenamos la tabla dibujada-->
-  <!--En nuestro controller, creamos en viewEmpresa un modelo con un atributo llamado emplist donde esta guardada la lista de todas las empresas-->
   <tr th:each="movimiento : ${listarMovimientos}">
     <td th:text="${movimiento.id}"></td>
     <td th:text="${movimiento.monto}"></td>
     <td th:text="${movimiento.concepto}"></td>
     <td th:text="${movimiento.empleado.id_empleado}"></td>
-    <td><button type="button" class="btn btn-info"><a th:href="@{/Empresa/{id}/Empleados (id=${empresa.id})}">Ver</a></button></td>
-    <td><button type="button" class="btn btn-primary"><a th:href="@{/Empresa/{id}/Movimientos (id=${empresa.id})}">Ver</a></button></td>
-    <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarMovimiento/{id}(id=${movimiento.id})}">Editar</a></button></td>
-    <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarMovimiento/{id}(id=${movimiento.id})}">Eliminar</a></button></td>
+    <td><button type="button" class="btn btn-info"><a th:href="@{/empresa/{id}/empleado (id=${empresa.id})}">Ver</a></button></td>
+    <td><button type="button" class="btn btn-primary"><a th:href="@{/empresa/{id}/movimientos (id=${empresa.id})}">Ver</a></button></td>
+    <td><button type="button" class="btn btn-warning"><a th:href="@{/editarMovimiento/{id}(id=${movimiento.id})}">Editar</a></button></td>
+    <td><button type="button" class="btn btn-danger"><a th:href="@{/eliminarMovimiento/{id}(id=${movimiento.id})}">Eliminar</a></button></td>
   </tr>
 </table>
 
-  <!-- vamos a crear un boton que sirva para agregar nuevos movimientos -->
   <button type="button" class="btn btn-info"><a th:href="@{/AgregarMovimiento}">Agregar Nuevo Movimiento</a></button>
   <br><br>
   <button type="button" class="btn btn-primary"><a th:href="@{/VerEmpleados}">Ver lista de Movimientos</a></button>
