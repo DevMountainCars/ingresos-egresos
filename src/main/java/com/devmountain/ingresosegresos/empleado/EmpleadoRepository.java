@@ -1,14 +1,12 @@
 package com.devmountain.ingresosegresos.empleado;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Repository
-    public interface EmpleadoRepository  extends CrudRepository<Empleado, Integer> {
-        @Query(value="SELECT * FROM empleados e WHERE e.id_empresa = ?1", nativeQuery=true)
+public interface EmpleadoRepository  extends JpaRepository<Empleado, Integer> {
 
-        public abstract ArrayList<Empleado> findByEmpresa(Integer id);
+    List<Empleado> findByEmpresaId(Integer idEmpresa);
 }
