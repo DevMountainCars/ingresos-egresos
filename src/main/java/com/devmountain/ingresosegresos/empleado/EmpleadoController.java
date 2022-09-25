@@ -1,51 +1,66 @@
 package com.devmountain.ingresosegresos.empleado;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
-@RestController
+@Secured("ROLE_ADMIN")
+@RequiredArgsConstructor
+@Controller
 public class EmpleadoController {
-    @Autowired
-    EmpleadoService empleadoService;
+    private final EmpleadoService empleadoService;
 
-    @GetMapping("/empleados")
-    public List<Empleado> verEmpleados(){
-        return empleadoService.getAllEmpleado();
+    @GetMapping(value = "/empresas/{id}/empleados")
+    public String listarEmpleadosEmpresa(@PathVariable Integer id, Model model) {
+        List<EmpleadoDTO> empleados = empleadoService.consultarPorEmpresa(id);
+        model.addAttribute("titulo", "Listar empleados");
+        model.addAttribute("empleados", empleados);
+        return "/empleados/listar";
     }
 
-    @PostMapping("/empleados")
-    public Optional<Empleado> guardarEmpleado(@RequestBody Empleado empl){
-        return Optional.ofNullable(this.empleadoService.saveOrUpdateEmpleado(empl));
+    @RequestMapping(value = "/empleados/form")
+    public String crear(Model model) {
+        EmpleadoDTO empleado = new EmpleadoDTO();
+        model.addAttribute("empleado", empleado);
+        model.addAttribute("titulo", "Empleado");
+
+        return "empleados/form";
     }
-    @GetMapping(path = "empleados/{id}")
-    public Optional<Empleado> empleadoPorID(@PathVariable("id") Integer id){
-        return this.empleadoService.getEmpleadoById(id);
-    }
-    @GetMapping("/enterprises/{id}/empleados")
-    public ArrayList<Empleado> EmpleadoPorEmpresa(@PathVariable("id") Integer id){
-        return this.empleadoService.obtenerPorEmpresa(id);
-    }
-    @PatchMapping("/empleados/{id}")
-    public Empleado actualizarEmpleado(@PathVariable("id") Integer id, @RequestBody Empleado empleado){
-        Empleado empl=empleadoService.getEmpleadoById(id).get();
-        empl.setNombre(empleado.getNombre());
-        empl.setEmail(empleado.getEmail());
-        empl.setEmpresa(empleado.getEmpresa());
-        //empl.setRol(empleado.getRol());
-        return empleadoService.saveOrUpdateEmpleado(empl);
-    }
-    @DeleteMapping("/empleados/{id}")
-    public String DeleteEmpleado(@PathVariable("id") Integer id){
-        boolean respuesta=empleadoService.deleteEmpleado(id);
-        if (respuesta){
-            return "Se pudo eliminar correctamente el empleado con id "+id;
+
+    public String guardar(@Valid @ModelAttribute("empleado") EmpleadoDTO empleado, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("titulo", "Formulario de empleado");
+            return "empleados/form";
         }
-        return "No se puedo eliminar correctamente el empleado con id "+id;
+        if (Objects.isNull(empleado.getId())) {
+            empleadoService.crear(empleado);
+        } else {
+            empleadoService.modificar(empleado);
+        }
+        return "redirect:/empleados";
     }
 
+    @RequestMapping(value = "/empleados/form/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
+        EmpleadoDTO empleado = null;
+        if (Objects.isNull(id) || id > 0) {
+            empleado = empleadoService.consultarPorId(id);
+        } else {
+            return "redirect:empleados/listar";
+        }
+        model.addAttribute("empleado", empleado);
+        model.addAttribute("titulo", "Editar empleado");
+        return "/empleados/form";
+    }
 
 }
