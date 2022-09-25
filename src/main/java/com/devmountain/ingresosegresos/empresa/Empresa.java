@@ -1,23 +1,17 @@
 package com.devmountain.ingresosegresos.empresa;
 
-import com.devmountain.ingresosegresos.empleado.Empleado;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -42,7 +36,4 @@ public class Empresa {
     private String direccion;
     private String telefono;
     private String nit;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "empresa")
-    @JsonManagedReference
-    private Set<Empleado> empleados;
 }
