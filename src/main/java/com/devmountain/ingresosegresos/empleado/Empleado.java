@@ -1,6 +1,7 @@
 package com.devmountain.ingresosegresos.empleado;
 
 import com.devmountain.ingresosegresos.empresa.Empresa;
+import com.devmountain.ingresosegresos.movimiento.Movimiento;
 import com.devmountain.ingresosegresos.rol.Rol;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,8 +21,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.List;
 
 @Setter
 @Getter

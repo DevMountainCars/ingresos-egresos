@@ -7,6 +7,7 @@
             th:text="'DevMountain - ' + ${titulo}"></title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}"/>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
 </head>
 <body>
 
@@ -58,8 +59,10 @@
          th:text="${warning}"></div>
     <div class="alert alert-info" th:if="${info != null}"
          th:text="${info}"></div>
+    <div class="text-center">
+        <img th:src="@{/images/logoDevMountain.png}" class="rounded" alt="DevMountain logo" width="210" height="200" />
+    </div>
 </header>
-
 <div class="container"></div>
 
 <footer th:fragment="footer" class="container">

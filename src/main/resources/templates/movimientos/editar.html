@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+<header th:replace="layout/layout :: header"></header>
+<div class="container py-4">
+    <div class="card bg-light">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
+            <form th:action="@{/movimientos/guardar/}" th:object="${movimiento}" method="post">
+                <div class="form-group row">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 col-form-label" for="id">ID del movimiento:</label>
+                        <div class="col-md-6">
+                            <input type="text" th:field="*{id}" class="form-control" id="id" required="required"
+                                   readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 col-form-label" for="concepto">Concepto del Movimiento:</label>
+                        <div class="col-md-6">
+                            <select th:field="*{concepto}" class="form-control" id="concepto" required="required">
+                                <option th:value=1>Llantas</option>
+                                <option th:value=2>Vidrios Polarizados</option>
+                                <option th:value=3>Rines</option>
+                                <option th:value=4>Batería</option>
+                                <option th:value=5>Pintura</option>
+                                <option th:value=6>Cojinería</option>
+                                <option th:value=7>Sonido</option>
+                                <option th:value=8>Motor</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 col-form-label" for="monto">Valor del movimiento:</label>
+                        <div class="col-md-6">
+                            <input type="number" th:field="*{monto}" class="form-control" id="monto"
+                                   required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 col-form-label" for="empleado">Responsable del movimiento:</label>
+                        <div class="col-md-6">
+                            <input id="empleado" th:value="${movimiento.empleado.nombre}" class="form-control"
+                                   disabled='disabled'/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <input type="submit" value="Guardar" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

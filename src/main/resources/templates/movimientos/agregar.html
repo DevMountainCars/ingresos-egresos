@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agregar nuevo Movimiento</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p><br>
+    <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+
+    <h1> Agregue aquí los datos del Movimiento</h1>
+    <br>
+    <form th:action="@{/GuardarMovimiento}" th:object="${mov}" method="post">
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3" for="concepto">Concepto del Movimiento:</label>
+                <div class="col-md-6">
+                    <select th:field="*{concepto}" class="form-control" id="concepto" required="required">
+                        <option th:value=1>Llantas</option>
+                        <option th:value=2>Vidrios Polarizados</option>
+                        <option th:value=3>Rines</option>
+                        <option th:value=4>Batería</option>
+                        <option th:value=5>Pintura</option>
+                        <option th:value=6>Cojinería</option>
+                        <option th:value=7>Sonido</option>
+                        <option th:value=8>Motor</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3" for="monto">Valor del movimiento:</label>
+                <div class="col-md-6">
+                    <input type="number" th:field="*{monto}" class="form-control" id="monto" required="required"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3" for="empleado">Empleado responsable:</label>
+                <div class="col-md-6">
+                    <select th:field="*{empleado}" class="form-control" id="empleado" required="required" readonly>
+                        <option th:text="${#httpServletRequest.remoteUser}" th:value="${idEmpleado}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3" for="fecha">Fecha del movimiento:</label>
+                <div class="col-md-6">
+                    <input type="date" th:field="*{fecha}" class="form-control" id="fecha" required="required" readonly></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <button class="btn btn-success">Registrar Movimiento</button>
+            </div>
+        </div>
+
+    </form>
+
+    <br>
+    <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+
+</div>
+<script th:inline="javascript">
+  window.onload=function(){
+  document.getElementById("fecha").value=new Date().toJSON().slice(0,10).replace(/-/g,'-');
+  }
+</script>
+
+
+</body>
+</html>
