@@ -24,7 +24,8 @@
                     <th>Nombre</th>
                     <th>Direccion</th>
                     <th>Teléfono</th>
-                    <th sec:authorize="hasRole('ROLE_ADMIN')">Ver</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">Ver empleados</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">Ver movimientos</th>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
                 </tr>
@@ -38,6 +39,10 @@
                     <td th:text="${empresa.telefono}"></td>
                     <td sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="btn btn-primary btn-xs" th:href="@{/empresas/{id}/empleados (id=${empresa.id})}"
+                           th:text="'Ver'"></a>
+                    </td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="btn btn-primary btn-xs" th:href="@{/movimientos/{id}/empresa (id=${empresa.id})}"
                            th:text="'Ver'"></a>
                     </td>
                     <td sec:authorize="hasRole('ROLE_ADMIN')">
