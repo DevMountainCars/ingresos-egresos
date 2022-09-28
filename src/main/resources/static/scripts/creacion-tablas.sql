@@ -22,3 +22,10 @@ CREATE TABLE movimientos (
 	concepto VARCHAR(255) NOT NULL,
 	id_empleado BIGINT REFERENCES empleados(id)
 );
+
+CREATE TABLE conceptos(
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	nombre VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE movimientos ADD COLUMN id_concepto BIGINT REFERENCES conceptos(id);

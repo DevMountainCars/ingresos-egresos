@@ -2,7 +2,6 @@ package com.devmountain.ingresosegresos.movimiento;
 
 import com.devmountain.ingresosegresos.empleado.EmpleadoRepository;
 import com.devmountain.ingresosegresos.empresa.EmpresaRepository;
-import com.devmountain.ingresosegresos.empresa.EmpresaService;
 import com.devmountain.ingresosegresos.mapper.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,21 @@ public class MovimientoService {
     private final MovimientoRepository movimientoRepository;
     private final EmpleadoRepository empleadoRepository;
     private final EmpresaRepository empresaRepository;
+
+    public MovimientoDTO consultarPorId(Integer id) {
+        if (Objects.isNull(id)) {
+            throw new IllegalArgumentException("El ID del movimiento a consultar no puede ser un valor nulo.");
+        }
+        Movimiento movimiento = movimientoRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new IllegalArgumentException(
+                                String.format("No se encontró movimiento con ID %s", id)
+                        )
+                );
+        return MapperUtil.INSTANCE.movimientoToMovimientoDTO(movimiento);
+    }
+
 
     public List<MovimientoDTO> listarMovimientos() {
         List<Movimiento> movimientos = movimientoRepository.findAll();
@@ -52,7 +66,6 @@ public class MovimientoService {
                 ));
         movimiento.setMonto(movimientoDTO.getMonto());
         movimiento.setConcepto(movimientoDTO.getConcepto());
-        movimiento.setEmpleado(MapperUtil.INSTANCE.empleadoDTOToEmpleado(movimientoDTO.getEmpleado()));
     }
 
     public void eliminarMovimiento(Integer idMovimiento) {

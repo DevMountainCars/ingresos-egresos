@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+<header th:replace="layout/layout :: header"></header>
+<div class="container py-4">
+    <div class="card bg-light">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
+            <h1 class="text-secondary border border-success border-top-0 border-left-0 border-right-0"
+                th:text="${titulo}"></h1>
+<!--            <h4 class="card-title">-->
+<!--                <a th:href="@{/movimientos/agregar}" class="btn btn-primary btn-xs">Registrar movimiento</a>-->
+<!--            </h4>-->
+            <table class="table table-bordered">
+                <tr>
+                    <th>ID</th>
+                    <th>Monto</th>
+                    <th>Concepto</th>
+                    <th>Empleado</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+
+                <!--Llenamos la tabla dibujada-->
+                <!--En nuestro controller, creamos en viewEmpresa un modelo con un atributo llamado emplist donde esta guardada la lista de todas las empresas-->
+                <tr th:each="movimiento : ${movimientos}">
+                    <td th:text="${movimiento.id}"></td>
+                    <td th:text="${movimiento.monto}"></td>
+                    <td th:text="${movimiento.concepto}"></td>
+                    <td th:text="${movimiento.empleado.nombre}"></td>
+
+<!--                    <td>-->
+<!--                        <button type="button" class="btn btn-primary"><a-->
+<!--                                th:href="@{/Empresa/{id}/Movimientos (id=${empresa.id})}">Ver</a></button>-->
+<!--                    </td>-->
+                    <td>
+                        <button type="button" class="btn btn-warning"><a
+                                th:href="@{/movimientos/editar/{id}(id=${movimiento.id})}">Editar</a></button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger"><a
+                                th:href="@{/EliminarMovimiento/{id}(id=${movimiento.id})}">Eliminar</a></button>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- vamos a crear un boton que sirva para agregar nuevos movimientos -->
+            <button type="button" class="btn btn-info"><a th:href="@{/AgregarMovimiento}">Agregar Nuevo Movimiento</a>
+            </button>
+            <br><br>
+            <button type="button" class="btn btn-primary"><a th:href="@{/VerEmpleados}">Ver lista de Movimientos</a>
+            </button>
+        </div>
+    </div>
+</div>
+<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
